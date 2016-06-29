@@ -7,11 +7,11 @@
 //
 
 import UIKit
-import UIScrollView_InfiniteScroll
+
 
 class TweetsViewController: UIViewController,UITableViewDelegate, UITableViewDataSource {
     
-    var tweets: [Tweet]!
+    var tweets: [Tweet]! = []
     
     var initialLimit = 20
     
@@ -23,6 +23,7 @@ class TweetsViewController: UIViewController,UITableViewDelegate, UITableViewDat
         tableView.dataSource = self
         tableView.delegate = self
         reloadTimeline()
+        
         //creates refresh icon
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), forControlEvents: UIControlEvents.ValueChanged)
@@ -44,19 +45,6 @@ class TweetsViewController: UIViewController,UITableViewDelegate, UITableViewDat
          return tweets?.count ?? 0
     }
     
-    func infiniteScroll() {
-        tableView.addInfiniteScrollWithHandler { (scrollView) -> Void in
-            let tableView = scrollView as! UITableView
-            self.initialLimit += 20
-            //self.loadPosts()
-            if self.initialLimit > self.tweets?.count {
-                self.initialLimit = (self.tweets?.count)!
-            }
-            tableView.reloadData()
-            print("\(self.initialLimit) is now the limit")
-            tableView.finishInfiniteScroll()
-        }
-    }
     func reloadTimeline() {
         TwitterClient.sharedInstance.homeTimeLine({ (tweets: [Tweet]) -> () in
             self.tweets = tweets
@@ -72,12 +60,8 @@ class TweetsViewController: UIViewController,UITableViewDelegate, UITableViewDat
         reloadTimeline()
         refreshControl.endRefreshing()
     }
-    @IBAction func onLogout(sender: AnyObject) {
-        TwitterClient.sharedInstance.logout()
-    }
-
-    
-    /*
+   
+        /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation

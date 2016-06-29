@@ -10,14 +10,6 @@ import UIKit
 import BDBOAuth1Manager
 
 class LoginViewController: UIViewController {
-    
-    let my_consumerKey: String! = "d6I5vFvGdL4IVAZRGb8xVwpeB"
-    let my_consumerSecret: String! = "ajwNDdkMehiuXEi1FT5Hd6WtmJYFETu9pKIwUHXBZUqXp8opAF"
-    let baseUrl: String! = "https://api.twitter.com"
-    let requestUrl: String! = "/oauth/request_token"
-    let authoUrl: String! = "/oauth/authorize"
-    let accessUrl: String! = "/oauth/access_token"
-
     override func viewDidLoad() {
         super.viewDidLoad()
 

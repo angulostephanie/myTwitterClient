@@ -15,6 +15,7 @@ class Tweet: NSObject {
     let createdAtString: String! = "created_at"
     
     var text: NSString?
+    var formattedTimeStampString: NSString?
     var timestamp: NSDate?
     var retweetCount: Int = 0
     var favoritesCount: Int = 0
@@ -27,14 +28,19 @@ class Tweet: NSObject {
         let userDictionary = dictionary["user"] as! NSDictionary
         
         user = User(dictionary: userDictionary)
+        
         let timestampString = dictionary[createdAtString] as? String
         
         if let timestampString = timestampString {
             let formatter = NSDateFormatter()
             formatter.dateFormat = "EEE MMM d HH:mm:ss Z y"
+            
             timestamp = formatter.dateFromString(timestampString)
+            print("\(timestamp)")
+            formattedTimeStampString = formatter.stringFromDate(timestamp!)
         }
     }
+
     class func tweetsWithArray(dictionaries: [NSDictionary]) -> [Tweet] {
         var tweets = [Tweet]()
         for dictionary in dictionaries {

@@ -14,20 +14,30 @@ PODS:
   - AFNetworking/Serialization (3.0.0)
   - AFNetworking/UIKit (3.0.0):
     - AFNetworking/NSURLSession
+  - Alamofire (3.4.1)
+  - AlamofireImage (2.4.0):
+    - Alamofire (~> 3.3)
   - BDBOAuth1Manager (2.0.0):
     - AFNetworking/NSURLSession (~> 3.0.0)
+  - DateTools (1.7.0)
   - UIScrollView-InfiniteScroll (0.7.3)
 
 DEPENDENCIES:
   - AFNetworking (= 3.0.0)
+  - Alamofire (~> 3.4)
+  - AlamofireImage (~> 2.0)
   - BDBOAuth1Manager (= 2.0.0)
+  - DateTools
   - UIScrollView-InfiniteScroll
 
 SPEC CHECKSUMS:
   AFNetworking: 932ff751f9d6fb1dad0b3af58b7e3ffba0a4e7fd
+  Alamofire: 01a82e2f6c0f860ade35534c8dd88be61bdef40c
+  AlamofireImage: 87408b652e0f5ae5fe364035f15aea8b9b24c77e
   BDBOAuth1Manager: 92d17d06f8a648602962304cd2f35ae7394fa001
+  DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
   UIScrollView-InfiniteScroll: b6c7d6d155dca7f9c5dd43813ecffeb301b3d50c
 
-PODFILE CHECKSUM: bf1ff533ced76f0a99e3ccfad0bdbbdba1fcb8a8
+PODFILE CHECKSUM: a4c6e3b90c947bf43fcfc846ec0828e37e53ee74
 
 COCOAPODS: 1.0.1
