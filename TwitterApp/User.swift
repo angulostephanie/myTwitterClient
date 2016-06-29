@@ -10,8 +10,8 @@ import UIKit
 
 class User: NSObject {
     static let userDidLogoutNotification = "UserDidLogout"
-    static var _currentUser: User?
     static let currentUserDataKey: String! = "currentUserData"
+    static var _currentUser: User?
     
     let nameString: String! = "name"
     let screennameString: String! = "screen_name"
@@ -30,6 +30,8 @@ class User: NSObject {
         
         name = dictionary[nameString] as? String
         screename = dictionary[screennameString] as? String
+        
+        
         let profileUrlString = dictionary[profileImageUrlString] as? String
         if let profileUrlString = profileUrlString {
             profileUrl = NSURL(string: profileUrlString)
