@@ -1,5 +1,5 @@
 //
-//  TabBarViewController.swift
+//  TweetDetailsViewController.swift
 //  TwitterApp
 //
 //  Created by Stephanie Angulo on 6/29/16.
@@ -8,11 +8,11 @@
 
 import UIKit
 
-class TabBarViewController: UITabBarController {
+class TweetDetailsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavIcon()
+
         // Do any additional setup after loading the view.
     }
 
@@ -21,13 +21,7 @@ class TabBarViewController: UITabBarController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func onLogout(sender: AnyObject) {
-        TwitterClient.sharedInstance.logout()
-    }
-    func setupNavIcon(){
-        let image = UIImage(named: "navicon.png")
-        self.navigationItem.titleView = UIImageView(image: image)
-    }
+
     /*
     // MARK: - Navigation
 

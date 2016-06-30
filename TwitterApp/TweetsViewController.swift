@@ -15,6 +15,7 @@ class TweetsViewController: UIViewController,UITableViewDelegate, UITableViewDat
     
     var initialLimit = 20
     
+    
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
@@ -29,7 +30,9 @@ class TweetsViewController: UIViewController,UITableViewDelegate, UITableViewDat
         refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.insertSubview(refreshControl, atIndex: 0)
     }
-
+    override func viewWillAppear(animated: Bool) {
+        self.navigationController?.navigationBarHidden = false
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -56,11 +59,21 @@ class TweetsViewController: UIViewController,UITableViewDelegate, UITableViewDat
             print(error.localizedDescription)
         }
     }
+    
     func refreshControlAction(refreshControl: UIRefreshControl) {
         reloadTimeline()
         refreshControl.endRefreshing()
     }
-   
+    
+//    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+//        let detailsViewController = self.storyboard!.instantiateViewControllerWithIdentifier("TweetDetailsViewController") as! TweetDetailsViewController
+//        detailsViewController.indexPath = indexPath
+//        detailsViewController.delegate = self
+//        let tweet = tweets![indexPath.row]
+//        detailsViewController.tweet = tweet
+//        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+//        self.navigationController?.pushViewController(detailsViewController, animated: true)
+//    }
         /*
     // MARK: - Navigation
 

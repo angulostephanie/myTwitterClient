@@ -1,5 +1,5 @@
 //
-//  TabBarViewController.swift
+//  ComposeTweetViewController.swift
 //  TwitterApp
 //
 //  Created by Stephanie Angulo on 6/29/16.
@@ -8,11 +8,11 @@
 
 import UIKit
 
-class TabBarViewController: UITabBarController {
+class ComposeTweetViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavIcon()
+
         // Do any additional setup after loading the view.
     }
 
@@ -21,13 +21,19 @@ class TabBarViewController: UITabBarController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func onLogout(sender: AnyObject) {
-        TwitterClient.sharedInstance.logout()
-    }
-    func setupNavIcon(){
-        let image = UIImage(named: "navicon.png")
-        self.navigationItem.titleView = UIImageView(image: image)
-    }
+//    func textViewDidChange(textView: UITextView) {
+//        let counter = 140 - tweetTextView.text.characters.count
+//        counterLabel.text = "\(counter)"
+//        if counter < 0 {
+//            counterLabel.textColor = UIColor.redColor()
+//            tweetBtn.backgroundColor = UIColor.lightGrayColor()
+//            tweetBtn.enabled = false
+//        } else {
+//            counterLabel.textColor = UIColor.lightGrayColor()
+//            tweetBtn.enabled = true
+//        }
+//    }
+    
     /*
     // MARK: - Navigation
 

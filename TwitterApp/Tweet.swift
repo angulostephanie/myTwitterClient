@@ -7,26 +7,40 @@
 //
 
 import UIKit
+import DateTools
 
 class Tweet: NSObject {
     let textString: String! = "text"
     let retweetCountString: String! = "retweet_count"
-    let favCountString: String! = "favourites_count"
+    let favCountString: String! = "favorite_count"
     let createdAtString: String! = "created_at"
+    let idString: String! = "id"
+    let favString: String! = "favorited"
+    let retweetString: String! = "retweeted"
     
-    var text: NSString?
-    var formattedTimeStampString: NSString?
+    var user: User?
+    var userID: Int?
+    var tweetID: Int?
+    var text: String?
+    var formattedTimeStampString: String?
     var timestamp: NSDate?
     var retweetCount: Int = 0
-    var favoritesCount: Int = 0
-    var user: User?
+    var retweeted = false
+    
+    var favoriteCount: Int = 0
+    var favorited = false
+    
+    
     
     init(dictionary: NSDictionary) {
+        tweetID = dictionary[idString] as? Int
         text = dictionary[textString] as? String
         retweetCount = (dictionary[retweetCountString] as? Int) ?? 0
-        favoritesCount = (dictionary[favCountString] as? Int) ?? 0
-        let userDictionary = dictionary["user"] as! NSDictionary
+        favoriteCount = (dictionary[favCountString] as? Int) ?? 0
+        favorited = dictionary[favString] as? Bool ?? false
+        retweeted = dictionary[retweetString] as? Bool ?? false
         
+        let userDictionary = dictionary["user"] as! NSDictionary
         user = User(dictionary: userDictionary)
         
         let timestampString = dictionary[createdAtString] as? String
@@ -36,8 +50,7 @@ class Tweet: NSObject {
             formatter.dateFormat = "EEE MMM d HH:mm:ss Z y"
             
             timestamp = formatter.dateFromString(timestampString)
-            print("\(timestamp)")
-            formattedTimeStampString = formatter.stringFromDate(timestamp!)
+            formattedTimeStampString = timestamp!.shortTimeAgoSinceNow()
         }
     }
 
