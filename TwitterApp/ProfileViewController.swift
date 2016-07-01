@@ -27,6 +27,11 @@ class ProfileViewController: UIViewController,UITableViewDelegate, UITableViewDa
         designButton()
         setUpProfile()
         reloadTimeline()
+        tableView.dataSource = self
+        tableView.delegate = self
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), forControlEvents: UIControlEvents.ValueChanged)
+        self.tableView.insertSubview(refreshControl, atIndex: 0)
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(animated: Bool) {
@@ -51,7 +56,7 @@ class ProfileViewController: UIViewController,UITableViewDelegate, UITableViewDa
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = self.tableView.dequeueReusableCellWithIdentifier("userTweetCell") as! TweetTableViewCell
+        let cell = self.tableView.dequeueReusableCellWithIdentifier("ProfileCell") as! ProfileCell
         let tweet = self.tweets![indexPath.row]
         cell.tweet = tweet
         return cell
@@ -89,13 +94,10 @@ class ProfileViewController: UIViewController,UITableViewDelegate, UITableViewDa
         logoutButton.layer.borderColor = UIColor.colorFromHex("#666666").CGColor
     }
     
-//    func roundedPhotos() {
-//        profileImageView.layer.cornerRadius = 5
-//
-//
-//        print("photos have been rounded")
-//    }
-    
+    func refreshControlAction(refreshControl: UIRefreshControl) {
+        reloadTimeline()
+        refreshControl.endRefreshing()
+    }
     @IBAction func onLogout(sender: AnyObject) {
         TwitterClient.sharedInstance.logout()    }
     
