@@ -9,16 +9,38 @@
 import UIKit
 
 class TweetDetailsViewController: UIViewController {
-
+    var tweet = Tweet?()
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var tweetBodyLabel: UILabel!
+    @IBOutlet weak var timestampLabel: UILabel!
+    @IBOutlet weak var profileImageView: UIImageView!
+    @IBOutlet weak var retweetLabel: UILabel!
+    @IBOutlet weak var favoriteLabel: UILabel!
+    
+   
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        importData()
         // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    
+    func importData() {
+        tweetBodyLabel.text = tweet!.text!
+        nameLabel.text = tweet!.user?.name as? String
+        usernameLabel.text = "@" + (tweet!.user?.screename as? String)!
+        profileImageView.af_setImageWithURL((tweet!.user?.profileUrl)!)
+        profileImageView.layer.cornerRadius = 4
+        profileImageView.clipsToBounds = true
+        timestampLabel.text = tweet!.formattedTimeStampString!
+        retweetLabel.text = String(tweet!.retweetCount)
+        favoriteLabel.text = String(tweet!.favoriteCount)
     }
     
 

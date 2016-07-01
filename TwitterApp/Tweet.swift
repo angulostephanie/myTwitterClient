@@ -14,44 +14,67 @@ class Tweet: NSObject {
     let retweetCountString: String! = "retweet_count"
     let favCountString: String! = "favorite_count"
     let createdAtString: String! = "created_at"
-    let idString: String! = "id"
+    let idString: String! = "id_str"
     let favString: String! = "favorited"
     let retweetString: String! = "retweeted"
     
     var user: User?
     var userID: Int?
+    var tweetIDStr: String?
     var tweetID: Int?
     var text: String?
     var formattedTimeStampString: String?
     var timestamp: NSDate?
     var retweetCount: Int = 0
-    var retweeted = false
-    
     var favoriteCount: Int = 0
-    var favorited = false
-    
-    
+    var retweetedByCurrentUser: Bool? = false
+    var wasRetweeted = false
+    var wasRetweetedBy: String?
+    var favoritedByCurrentUser: Bool? = false
     
     init(dictionary: NSDictionary) {
-        tweetID = dictionary[idString] as? Int
-        text = dictionary[textString] as? String
-        retweetCount = (dictionary[retweetCountString] as? Int) ?? 0
-        favoriteCount = (dictionary[favCountString] as? Int) ?? 0
-        favorited = dictionary[favString] as? Bool ?? false
-        retweeted = dictionary[retweetString] as? Bool ?? false
-        
-        let userDictionary = dictionary["user"] as! NSDictionary
-        user = User(dictionary: userDictionary)
-        
-        let timestampString = dictionary[createdAtString] as? String
-        
-        if let timestampString = timestampString {
-            let formatter = NSDateFormatter()
-            formatter.dateFormat = "EEE MMM d HH:mm:ss Z y"
+        let retweetedTweet = dictionary["retweeted_status"]
+        if let retweetedTweet = retweetedTweet {
+            let userDictionary = retweetedTweet["user"] as? NSDictionary
+            user = User(dictionary: userDictionary!)
             
-            timestamp = formatter.dateFromString(timestampString)
-            formattedTimeStampString = timestamp!.shortTimeAgoSinceNow()
+            tweetIDStr = retweetedTweet[idString] as? String
+            tweetID = Int(tweetIDStr!)
+            text = retweetedTweet[textString] as? String
+            retweetCount = (retweetedTweet[retweetCountString] as? Int) ?? 0
+            favoriteCount = (retweetedTweet[favCountString] as? Int) ?? 0
+            wasRetweeted = true
+            wasRetweetedBy = dictionary["user"]!["name"] as? String
+            userID = (user?.id)! as Int
+            let timestampString = retweetedTweet[createdAtString] as? String
+            if let timestampString = timestampString {
+                let formatter = NSDateFormatter()
+                formatter.dateFormat = "EEE MMM d HH:mm:ss Z y"
+                timestamp = formatter.dateFromString(timestampString)
+                formattedTimeStampString = timestamp!.shortTimeAgoSinceNow()
+            }
+        } else {
+            let userDictionary = dictionary["user"] as! NSDictionary
+            user = User(dictionary: userDictionary)
+            userID = (user?.id)! as Int
+            tweetIDStr = dictionary[idString] as? String
+            tweetID = Int(tweetIDStr!)
+            text = dictionary[textString] as? String
+            retweetCount = (dictionary[retweetCountString] as? Int) ?? 0
+            favoriteCount = (dictionary[favCountString] as? Int) ?? 0
+            wasRetweeted = false
+            
+            let timestampString = dictionary[createdAtString] as? String
+            if let timestampString = timestampString {
+                let formatter = NSDateFormatter()
+                formatter.dateFormat = "EEE MMM d HH:mm:ss Z y"
+                
+                timestamp = formatter.dateFromString(timestampString)
+                formattedTimeStampString = timestamp!.shortTimeAgoSinceNow()
+            }
         }
+        retweetedByCurrentUser = dictionary["retweeted"] as? Bool
+        favoritedByCurrentUser = dictionary["favorited"] as? Bool
     }
 
     class func tweetsWithArray(dictionaries: [NSDictionary]) -> [Tweet] {

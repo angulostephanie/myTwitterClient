@@ -33,25 +33,24 @@ class User: NSObject {
     var userDescription: NSString?
     var dictionary: NSDictionary?
     
+    
     init(dictionary: NSDictionary) {
         self.dictionary = dictionary
         
         id = dictionary[idString] as? Int
         name = dictionary[nameString] as? String
         screename = dictionary[screennameString] as? String
-        
         followers = dictionary[followerString] as? Int
         following = dictionary[followerString] as? Int
-        
         let profileUrlString = dictionary[profileImageUrlString] as? String
         if let profileUrlString = profileUrlString {
-            profileUrl = NSURL(string: profileUrlString)
+            let bigProfileUrlString = profileUrlString.stringByReplacingOccurrencesOfString("_normal", withString: "")
+            profileUrl = NSURL(string: bigProfileUrlString)
         }
-        
-        let profileBackgroundString = dictionary[profileBackgroundImageUrlString] as? String
-        if let profileBackgroundString = profileBackgroundString {
-            profileBackgroundImageURL = NSURL(string: profileBackgroundString)
-        } 
+//        let profileBackgroundString = dictionary[profileBackgroundImageUrlString] as? String
+//        if let profileBackgroundString = profileBackgroundString {
+//            profileBackgroundImageURL = NSURL(string: profileBackgroundString)
+//        } 
         userDescription = dictionary[descriptionString] as? String
     }
     

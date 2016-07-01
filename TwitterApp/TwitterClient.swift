@@ -97,7 +97,7 @@ class TwitterClient: BDBOAuth1SessionManager {
     }
     
     func retweet(id: Int, success: (Tweet) -> (), failure: (NSError) -> ()) {
-        POST("/1.1/statuses/unretweet/\(id).json", parameters: nil,
+        POST("/1.1/statuses/unretweet/\(String(id)).json", parameters: nil,
              progress: { (progress: NSProgress) -> Void in },
              success: { (operation: NSURLSessionDataTask, response: AnyObject?) -> Void in
                 let dictionary = response as! NSDictionary
@@ -111,7 +111,7 @@ class TwitterClient: BDBOAuth1SessionManager {
     }
     
     func unretweet(id: Int, success: (Tweet) -> (), failure: (NSError) -> ()) {
-        POST("/1.1/statuses/retweet/\(id).json", parameters: nil, progress: { (progress: NSProgress) -> Void in }, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
+        POST("/1.1/statuses/retweet/\(String(id)).json", parameters: nil, progress: { (progress: NSProgress) -> Void in }, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
             let dictionary = response as! NSDictionary
             let tweet = Tweet(dictionary: dictionary)
             success(tweet)

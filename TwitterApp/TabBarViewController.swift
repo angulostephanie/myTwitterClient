@@ -13,6 +13,7 @@ class TabBarViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavIcon()
+        
         // Do any additional setup after loading the view.
     }
 
@@ -25,8 +26,9 @@ class TabBarViewController: UITabBarController {
         TwitterClient.sharedInstance.logout()
     }
     func setupNavIcon(){
-        let image = UIImage(named: "navicon.png")
+        let image = UIImage(named: "Slugfilled-30.png")
         self.navigationItem.titleView = UIImageView(image: image)
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style:.Plain, target:nil, action:nil)
     }
     /*
     // MARK: - Navigation

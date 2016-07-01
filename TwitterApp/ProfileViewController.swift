@@ -39,15 +39,17 @@ class ProfileViewController: UIViewController,UITableViewDelegate, UITableViewDa
     }
     func setUpProfile() {
         nameLabel.text = User.currentUser!.name as? String
-        usernameLabel.text = User.currentUser!.screename as? String
+        usernameLabel.text = "@" + (User.currentUser!.screename as? String)!
         profileImageView.af_setImageWithURL((User.currentUser!.profileUrl)!)
-        print("\(User.currentUser!.profileBackgroundImageURL)")
-        //profileBackgroundImageView.af_setImageWithURL(()!)
+        profileImageView.layer.cornerRadius = 4
+        profileImageView.clipsToBounds = true
+        profileImageView.layer.borderWidth = 2
+        profileImageView.layer.borderColor = UIColor.whiteColor().CGColor
         bioLabel.text = User.currentUser!.userDescription as? String
         followingLabel.text = String((User.currentUser!.following)!)
         followersLabel.text = String((User.currentUser!.followers)!)
-        
     }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCellWithIdentifier("userTweetCell") as! TweetTableViewCell
         let tweet = self.tweets![indexPath.row]
@@ -86,6 +88,13 @@ class ProfileViewController: UIViewController,UITableViewDelegate, UITableViewDa
         logoutButton.layer.borderWidth = 0.5
         logoutButton.layer.borderColor = UIColor.colorFromHex("#666666").CGColor
     }
+    
+//    func roundedPhotos() {
+//        profileImageView.layer.cornerRadius = 5
+//
+//
+//        print("photos have been rounded")
+//    }
     
     @IBAction func onLogout(sender: AnyObject) {
         TwitterClient.sharedInstance.logout()    }
