@@ -20,13 +20,13 @@ class Tweet: NSObject {
     
     var user: User?
     var userID: Int?
-    var tweetIDStr: String?
+    var tweetIDStr: String!
     var tweetID: Int?
     var text: String?
     var formattedTimeStampString: String?
     var timestamp: NSDate?
-    var retweetCount: Int = 0
-    var favoriteCount: Int = 0
+    var retweetCount: Int!
+    var favoriteCount: Int!
     var retweetedByCurrentUser: Bool? = false
     var wasRetweeted = false
     var wasRetweetedBy: String?
@@ -57,7 +57,7 @@ class Tweet: NSObject {
             let userDictionary = dictionary["user"] as! NSDictionary
             user = User(dictionary: userDictionary)
             userID = (user?.id)! as Int
-            tweetIDStr = dictionary[idString] as? String
+            tweetIDStr = dictionary["id_str"] as? String
             tweetID = Int(tweetIDStr!)
             text = dictionary[textString] as? String
             retweetCount = (dictionary[retweetCountString] as? Int) ?? 0
@@ -72,7 +72,7 @@ class Tweet: NSObject {
                 timestamp = formatter.dateFromString(timestampString)
                 formattedTimeStampString = timestamp!.shortTimeAgoSinceNow()
             }
-        }
+    }
         retweetedByCurrentUser = dictionary["retweeted"] as? Bool
         favoritedByCurrentUser = dictionary["favorited"] as? Bool
     }

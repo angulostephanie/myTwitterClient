@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 import AlamofireImage
 
+
 class TweetTableViewCell: UITableViewCell {
 
     @IBOutlet weak var nameLabel: UILabel!
@@ -21,10 +22,9 @@ class TweetTableViewCell: UITableViewCell {
     @IBOutlet weak var favoriteLabel: UILabel!
     var hasBeenRetweeted: Bool = false
     var hasBeenFavorited: Bool = false
-    var tweetIdStr : String?
+    var myTweetIdStr : String?
     
     @IBOutlet weak var retweetButton: UIButton!
-    
     @IBOutlet weak var favoriteButton: UIButton!
     
     var tweet: Tweet! {
@@ -34,83 +34,82 @@ class TweetTableViewCell: UITableViewCell {
             usernameLabel.text = "@" + (tweet.user?.screename as? String)!
             profileImageView.af_setImageWithURL((tweet.user?.profileUrl)!)
             timestampLabel.text = tweet.formattedTimeStampString!
+            myTweetIdStr = tweet.tweetIDStr
+            
+            retweetLabel.text = String(tweet.retweetCount)
+            
             favoriteLabel.text = String(tweet.favoriteCount)
-            tweetIdStr = String(tweet.tweetID)
             
-            if tweet.retweetCount == 0 {
-                retweetLabel.text = ""
-            } else {
-                retweetLabel.text = String(tweet.favoriteCount)
-            }
-            if tweet.favoriteCount == 0 {
-                favoriteLabel.text = ""
-            } else {
-                favoriteLabel.text = String(tweet.favoriteCount)
-            }
-            
+        
             hasBeenRetweeted = tweet.retweetedByCurrentUser!
             hasBeenFavorited = tweet.favoritedByCurrentUser!
             
-            if hasBeenRetweeted {
-                retweetButton.setImage(UIImage(named: "greenretweet.png"), forState: UIControlState.Normal)
-            }
-            
-            if hasBeenFavorited {
-                favoriteButton.setImage(UIImage(named: "red_heart.png"), forState: UIControlState.Normal)
-            }
+//            if hasBeenRetweeted {
+//                retweetButton.setImage(UIImage(named: "greenretweet.png"), forState: UIControlState.Normal)
+//            }
+//            
+//            if hasBeenFavorited {
+//                favoriteButton.setImage(UIImage(named: "red_heart.png"), forState: UIControlState.Normal)
+//            }
         }
     }
     
     @IBAction func onRetweet(sender: UIButton) {
         print("clicked retweet button")
-        if hasBeenRetweeted {
-            TwitterClient.sharedInstance.unretweet(tweet.tweetID!, success: { (tweet) in
-                    self.tweet = tweet
-                sender.setImage(UIImage(named: "retweet-action.png"), forState: .Normal)
-                print("unretweeted")
-                tweet.retweetCount -= 1
-                self.retweetLabel.text = String(tweet.retweetCount -= 1)
-                self.hasBeenRetweeted = false
-                }, failure: { (error:NSError) in
-                    print(error.localizedDescription)
-            })
-        } else {
-            TwitterClient.sharedInstance.retweet(tweet.tweetID!, success: { (tweet) in
+        
+        //        if hasBeenRetweeted {
+//            TwitterClient.sharedInstance.unretweet(tweet.tweetID!, success: { (tweet) in
+//                    self.tweet = tweet
+//                sender.setImage(UIImage(named: "retweet-action.png"), forState: .Normal)
+//                print("unretweeted")
+//                tweet.retweetCount -= 1
+//                self.retweetLabel.text = String(tweet.retweetCount -= 1)
+//                self.hasBeenRetweeted = false
+//                }, failure: { (error:NSError) in
+//                    print(error.localizedDescription)
+//            })
+//        } else {
+        let newCount  = (Int(self.retweetLabel.text!))! + 1
+        self.retweetLabel.text = String(newCount)
+        TwitterClient.sharedInstance.retweet(myTweetIdStr, success: { (tweet) in
                 self.tweet = tweet
                 sender.setImage(UIImage(named: "greenretweet.png"), forState: .Normal)
                 print("retweeted")
-                self.retweetLabel.text = String(tweet.retweetCount += 1)
-                tweet.retweetCount += 1
-                print("\(tweet.tweetID!)")
+
                 self.hasBeenRetweeted = true
                 }, failure: { (error:NSError) in
                     print(error.localizedDescription)
             })
-        }
+        
     }
+    //}
     
    @IBAction func onFavorite(sender: UIButton) {
         print("clicked favorite button")
-        if !hasBeenFavorited {
-            TwitterClient.sharedInstance.unfavorite(tweet.tweetID!, success: { (tweet) in
-                self.tweet = tweet
-                sender.setImage(UIImage(named: "grayheart.png"), forState: .Normal)
-                print("not favorited")
-                self.favoriteLabel.text = String(tweet.favoriteCount)
-                }, failure: { (error:NSError) in
-                    print(error.localizedDescription)
-            })
-        } else {
-            TwitterClient.sharedInstance.retweet(tweet.tweetID!, success: { (tweet) in
+        print("/1.1/favorites/create.json?id=\(myTweetIdStr)")
+    //        if !hasBeenFavorited {
+//            TwitterClient.sharedInstance.unfavorite(tweet.tweetID!, success: { (tweet) in
+//                self.tweet = tweet
+//                sender.setImage(UIImage(named: "grayheart.png"), forState: .Normal)
+//                print("not favorited")
+//                self.favoriteLabel.text = String(tweet.favoriteCount)
+//                }, failure: { (error:NSError) in
+//                    print(error.localizedDescription)
+//            })
+//        } else {
+        let newfavCount  = (Int(self.favoriteLabel.text!))! + 1
+        self.favoriteLabel.text = String(newfavCount)
+        TwitterClient.sharedInstance.favorite(myTweetIdStr, success: { (tweet) in
                 self.tweet = tweet
                 sender.setImage(UIImage(named: "red_heart.png"), forState: .Normal)
-                self.favoriteLabel.text = String(tweet.favoriteCount + 1)
-                tweet.favoriteCount = tweet.favoriteCount + 1
                 print("favorited <3")
                 }, failure: { (error:NSError) in
                     print(error.localizedDescription)
             })
         }
+    
+    @IBAction func onProfileImage(tweet:Tweet?, sender: AnyObject) {
+       //self.performSegueWithIdentifier("OtherProfileSegue", sender: nil)
     }
     override func awakeFromNib() {
         super.awakeFromNib()

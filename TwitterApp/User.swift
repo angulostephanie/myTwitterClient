@@ -19,6 +19,7 @@ class User: NSObject {
     let profileBackgroundImageUrlString: String! = "profile_background_image_url_https"
     let descriptionString: String! = "description"
     let idString: String! = "id"
+    
     let followerString: String! = "followers_count"
     let followingString: String! = "friends_count"
     
@@ -41,7 +42,7 @@ class User: NSObject {
         name = dictionary[nameString] as? String
         screename = dictionary[screennameString] as? String
         followers = dictionary[followerString] as? Int
-        following = dictionary[followerString] as? Int
+        following = dictionary[followingString] as? Int
         let profileUrlString = dictionary[profileImageUrlString] as? String
         if let profileUrlString = profileUrlString {
             let bigProfileUrlString = profileUrlString.stringByReplacingOccurrencesOfString("_normal", withString: "")

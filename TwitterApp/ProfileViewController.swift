@@ -77,7 +77,10 @@ class ProfileViewController: UIViewController,UITableViewDelegate, UITableViewDa
             print(error.localizedDescription)
         }
     }
-//    func reloadBanner() {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
+    //    func reloadBanner() {
 //        TwitterClient.sharedInstance.getBanner({ (user: User) -> () in
 //            let userdictionary = User.currentUser!
 //            
@@ -101,15 +104,16 @@ class ProfileViewController: UIViewController,UITableViewDelegate, UITableViewDa
     @IBAction func onLogout(sender: AnyObject) {
         TwitterClient.sharedInstance.logout()    }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+  
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        let cell = sender as! UITableViewCell
+        let indexPath = tableView.indexPathForCell(cell)
+        let tweet = tweets![(indexPath?.row)!]
+        let detailViewController = segue.destinationViewController as! TweetDetailsViewController
+        detailViewController.tweet = tweet
+        print("prepare for segue has been called")
     }
-    */
+ 
 
 }
 

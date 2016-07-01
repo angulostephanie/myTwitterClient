@@ -96,12 +96,10 @@ class TwitterClient: BDBOAuth1SessionManager {
         }
     }
     
-    func retweet(id: Int, success: (Tweet) -> (), failure: (NSError) -> ()) {
-        POST("/1.1/statuses/unretweet/\(String(id)).json", parameters: nil,
-             progress: { (progress: NSProgress) -> Void in },
-             success: { (operation: NSURLSessionDataTask, response: AnyObject?) -> Void in
-                let dictionary = response as! NSDictionary
-                let tweet = Tweet(dictionary: dictionary)
+    func retweet(tweetIDStr: String!, success: (Tweet) -> (), failure: (NSError) -> ()) {
+        POST("/1.1/statuses/retweet/\(tweetIDStr).json", parameters: nil,
+             progress: nil, success: { (operation: NSURLSessionDataTask, response: AnyObject?) -> Void in
+                let tweet = Tweet(dictionary: response as! NSDictionary)
                 success(tweet)
             },
              failure: { (operation: NSURLSessionDataTask?, error: NSError!) -> Void in
@@ -110,8 +108,8 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
     }
     
-    func unretweet(id: Int, success: (Tweet) -> (), failure: (NSError) -> ()) {
-        POST("/1.1/statuses/retweet/\(String(id)).json", parameters: nil, progress: { (progress: NSProgress) -> Void in }, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
+    func unretweet(tweetIDStr: String!, success: (Tweet) -> (), failure: (NSError) -> ()) {
+        POST("/1.1/statuses/retweet/\(tweetIDStr).json", parameters: nil, progress: nil, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
             let dictionary = response as! NSDictionary
             let tweet = Tweet(dictionary: dictionary)
             success(tweet)
@@ -120,8 +118,19 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
     }
     
-    func favorite(id: Int?, success: (Tweet) -> (), failure: (NSError) -> ()) {
-        POST(favoriteUrl, parameters: nil, progress: { (progress: NSProgress) -> Void in },success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
+    func favorite(tweetIDStr: String!, success: (Tweet) -> (), failure: (NSError) -> ()) {
+        POST("/1.1/favorites/create.json?id=\(tweetIDStr)", parameters: nil, progress: { (progress: NSProgress) -> Void in },success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
+            let dictionary = response as! NSDictionary
+            let tweet = Tweet(dictionary: dictionary)
+            success(tweet)
+            }, failure: { (task: NSURLSessionDataTask?, error: NSError) -> Void in
+                failure(error)
+                print("ERROROEROROEROR")
+        })
+    }
+    
+    func unfavorite(tweetIDStr: String!, success: (Tweet) -> (), failure: (NSError) -> ()) {
+        POST("/1.1/statuses/destroy/\(tweetIDStr).json", parameters: nil, progress: { (progress: NSProgress) -> Void in },success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
             let dictionary = response as! NSDictionary
             let tweet = Tweet(dictionary: dictionary)
             success(tweet)
@@ -130,21 +139,11 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
     }
     
-    func unfavorite(id: Int?, success: (Tweet) -> (), failure: (NSError) -> ()) {
-        POST(unfavoriteUrl, parameters: nil, progress: { (progress: NSProgress) -> Void in },success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
-            let dictionary = response as! NSDictionary
-            let tweet = Tweet(dictionary: dictionary)
-            success(tweet)
-            }, failure: { (task: NSURLSessionDataTask?, error: NSError) -> Void in
-                failure(error)
-        })
-    }
-    
-    func compose(id: Int?, success: (Tweet) -> (), failure: (NSError) -> ()) {
-        POST(composeUrl, parameters: nil, progress: { (progress: NSProgress) -> Void in },success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
-            let dictionary = response as! NSDictionary
-            let tweet = Tweet(dictionary: dictionary)
-            success(tweet)
+    func compose(status: String!, success: () -> (), failure: (NSError) -> ()) {
+        let statusParams = ["status" : status]
+        POST("/1.1/statuses/update.json", parameters: statusParams, progress: nil ,success: { (task: NSURLSessionDataTask, response: AnyObject?) in
+            print("tweet created")
+            success()
             }, failure: { (task: NSURLSessionDataTask?, error: NSError) -> Void in
                 failure(error)
         })

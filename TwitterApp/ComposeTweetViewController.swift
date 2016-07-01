@@ -2,17 +2,26 @@
 //  ComposeTweetViewController.swift
 //  TwitterApp
 //
-//  Created by Stephanie Angulo on 6/29/16.
+//  Created by Stephanie Angulo on 6/30/16.
 //  Copyright © 2016 Stephanie Angulo. All rights reserved.
 //
 
 import UIKit
 
-class ComposeTweetViewController: UIViewController {
-
+class ComposeTweetViewController: UIViewController, UITextViewDelegate {
+    @IBOutlet weak var profileImageView: UIImageView!
+    @IBOutlet weak var limitLabel: UILabel!
+    @IBOutlet weak var myTextView: UITextView!
+    
+    var finishedTweet: String!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        myTextView.becomeFirstResponder()
+        profileImageView.af_setImageWithURL((User.currentUser!.profileUrl)!)
+        profileImageView.layer.cornerRadius = 4
+        profileImageView.clipsToBounds = true
+        myTextView.delegate = self
         // Do any additional setup after loading the view.
     }
 
@@ -20,20 +29,27 @@ class ComposeTweetViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-//    func textViewDidChange(textView: UITextView) {
-//        let counter = 140 - tweetTextView.text.characters.count
-//        counterLabel.text = "\(counter)"
-//        if counter < 0 {
-//            counterLabel.textColor = UIColor.redColor()
-//            tweetBtn.backgroundColor = UIColor.lightGrayColor()
-//            tweetBtn.enabled = false
-//        } else {
-//            counterLabel.textColor = UIColor.lightGrayColor()
-//            tweetBtn.enabled = true
-//        }
-//    }
-    
+    func textViewDidChange(textView: UITextView) {
+        finishedTweet = myTextView.text
+    }
+//    TwitterClient.sharedInstance.retweet(myTweetIdStr, success: { (tweet) in
+//    self.tweet = tweet
+//    sender.setImage(UIImage(named: "greenretweet.png"), forState: .Normal)
+//    print("retweeted")
+//    
+//    self.hasBeenRetweeted = true
+//    }, failure: { (error:NSError) in
+//    print(error.localizedDescription)
+//    })
+
+    @IBAction func onTweetButton(sender: AnyObject) {
+        TwitterClient.sharedInstance.compose(myTextView.text, success: { () in
+            print("YES")
+        }, failure: { (error: NSError) in
+            print("error")
+        })
+        self.performSegueWithIdentifier("newTweetSegue", sender: nil)
+    }
     /*
     // MARK: - Navigation
 

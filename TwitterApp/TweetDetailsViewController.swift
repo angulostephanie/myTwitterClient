@@ -18,19 +18,24 @@ class TweetDetailsViewController: UIViewController {
     @IBOutlet weak var retweetLabel: UILabel!
     @IBOutlet weak var favoriteLabel: UILabel!
     
+    
    
     override func viewDidLoad() {
         super.viewDidLoad()
         importData()
         // Do any additional setup after loading the view.
     }
-
+    override func viewWillAppear(animated: Bool) {
+        self.navigationController?.navigationBarHidden = false
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    
+    @IBAction func onProfileImage(sender: AnyObject) {
+      performSegueWithIdentifier("OtherProfileSegue", sender: nil)
+    }
     func importData() {
         tweetBodyLabel.text = tweet!.text!
         nameLabel.text = tweet!.user?.name as? String
