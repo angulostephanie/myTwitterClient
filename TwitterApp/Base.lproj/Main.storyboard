@@ -770,6 +770,9 @@
                                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EbM-pj-Jnq">
                                                         <rect key="frame" x="335" y="29" width="23" height="23"/>
                                                         <state key="normal" image="Createnew23white"/>
+                                                        <connections>
+                                                            <action selector="onCompose:" destination="nXW-s0-UiH" eventType="touchUpInside" id="6Nh-cT-ofR"/>
+                                                        </connections>
                                                     </button>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IIa-r3-PvS">
                                                         <rect key="frame" x="8" y="67" width="70" height="70"/>
@@ -888,7 +891,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xPC-Be-cnY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="874.5" y="1336.5"/>
+            <point key="canvasLocation" x="490.5" y="-643.5"/>
         </scene>
     </scenes>
     <resources>

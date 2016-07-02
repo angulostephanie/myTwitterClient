@@ -81,15 +81,7 @@ class ProfileViewController: UIViewController,UITableViewDelegate, UITableViewDa
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
-    //    func reloadBanner() {
-//        TwitterClient.sharedInstance.getBanner({ (user: User) -> () in
-//            let userdictionary = User.currentUser!
-//            
-//            
-//        }) { (error: NSError) -> () in
-//                print(error.localizedDescription)
-//        }
-//    }
+
     func designButton() {
         logoutButton.titleLabel!.font =  UIFont(name: "HelveticaNeue-Medium", size: 12)
         logoutButton.backgroundColor = UIColor.clearColor()
