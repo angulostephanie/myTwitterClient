@@ -23,12 +23,14 @@ class TweetsViewController: UIViewController,UITableViewDelegate, UITableViewDat
         
         tableView.dataSource = self
         tableView.delegate = self
+        
         reloadTimeline()
         
         //creates refresh icon
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.insertSubview(refreshControl, atIndex: 0)
+        
     }
     override func viewWillAppear(animated: Bool) {
         self.navigationController?.navigationBarHidden = false
