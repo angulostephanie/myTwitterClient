@@ -67,7 +67,8 @@ class ProfileViewController: UIViewController,UITableViewDelegate, UITableViewDa
     }
     
     func reloadTimeline() {
-        TwitterClient.sharedInstance.userTimeLine({ (tweets: [Tweet]) -> () in
+        TwitterClient.sharedInstance.userTimeLine(usernameLabel.text, user_id: User.currentUser!.id, success:
+            { (tweets: [Tweet]) -> () in
             self.tweets = tweets
             for tweet in tweets {
                 print(tweet.text)

@@ -19,7 +19,7 @@ class Tweet: NSObject {
     let retweetString: String! = "retweeted"
     
     var user: User?
-    var userID: Int?
+    var userID: String?
     var tweetIDStr: String!
     var tweetID: Int?
     var text: String?
@@ -45,7 +45,7 @@ class Tweet: NSObject {
             favoriteCount = (retweetedTweet[favCountString] as? Int) ?? 0
             wasRetweeted = true
             wasRetweetedBy = dictionary["user"]!["name"] as? String
-            userID = (user?.id)! as Int
+            userID = (user?.id)! as String
             let timestampString = retweetedTweet[createdAtString] as? String
             if let timestampString = timestampString {
                 let formatter = NSDateFormatter()
@@ -56,7 +56,7 @@ class Tweet: NSObject {
         } else {
             let userDictionary = dictionary["user"] as! NSDictionary
             user = User(dictionary: userDictionary)
-            userID = (user?.id)! as Int
+            userID = (user?.id)! as String
             tweetIDStr = dictionary["id_str"] as? String
             tweetID = Int(tweetIDStr!)
             text = dictionary[textString] as? String

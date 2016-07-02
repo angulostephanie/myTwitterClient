@@ -17,6 +17,11 @@ class ProfileCell: UITableViewCell {
     @IBOutlet weak var tweetBodyLabel: UILabel!
     @IBOutlet weak var retweetLabel: UILabel!
     @IBOutlet weak var favoriteLabel: UILabel!
+    
+    @IBOutlet weak var retweetButton: UIButton!
+    
+    @IBOutlet weak var favoriteButton: UIButton!
+    
     var hasBeenRetweeted: Bool = false
     var hasBeenFavorited: Bool = false
     var tweetIdStr : String?
@@ -45,13 +50,13 @@ class ProfileCell: UITableViewCell {
             hasBeenRetweeted = tweet.retweetedByCurrentUser!
             hasBeenFavorited = tweet.favoritedByCurrentUser!
             
-//            if hasBeenRetweeted {
-//                retweetButton.setImage(UIImage(named: "greenretweet.png"), forState: UIControlState.Normal)
-//            }
-//            
-//            if hasBeenFavorited {
-//                favoriteButton.setImage(UIImage(named: "red_heart.png"), forState: UIControlState.Normal)
-//            }
+           if hasBeenRetweeted {
+                //retweetButton.setImage(UIImage(named: "greenretweet.png"), forState: UIControlState.Normal)
+           }
+           
+            if hasBeenFavorited {
+                //favoriteButton.setImage(UIImage(named: "red_heart.png"), forState: UIControlState.Normal)
+            }
         }
     }
     override func awakeFromNib() {

@@ -18,7 +18,7 @@ class User: NSObject {
     let profileImageUrlString: String! = "profile_image_url_https"
     let profileBackgroundImageUrlString: String! = "profile_background_image_url_https"
     let descriptionString: String! = "description"
-    let idString: String! = "id"
+    let idString: String! = "id_str"
     
     let followerString: String! = "followers_count"
     let followingString: String! = "friends_count"
@@ -30,7 +30,7 @@ class User: NSObject {
     var followers: Int?
     var following: Int?
     var tweets: Int?
-    var id: Int?
+    var id: String?
     var userDescription: NSString?
     var dictionary: NSDictionary?
     
@@ -38,7 +38,7 @@ class User: NSObject {
     init(dictionary: NSDictionary) {
         self.dictionary = dictionary
         
-        id = dictionary[idString] as? Int
+        id = dictionary[idString] as? String
         name = dictionary[nameString] as? String
         screename = dictionary[screennameString] as? String
         followers = dictionary[followerString] as? Int

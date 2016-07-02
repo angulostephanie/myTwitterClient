@@ -32,6 +32,7 @@ class TweetsViewController: UIViewController,UITableViewDelegate, UITableViewDat
     }
     override func viewWillAppear(animated: Bool) {
         self.navigationController?.navigationBarHidden = false
+        self.navigationController!.navigationBar.tintColor = UIColor.colorFromHex("#FFCC00")
     }
     
     override func didReceiveMemoryWarning() {
@@ -43,6 +44,7 @@ class TweetsViewController: UIViewController,UITableViewDelegate, UITableViewDat
         let cell = self.tableView.dequeueReusableCellWithIdentifier("tweetCell") as! TweetTableViewCell
         let tweet = self.tweets![indexPath.row]
         cell.tweet = tweet
+        cell.profileImageButton.tag = indexPath.row
         cell.accessoryType = UITableViewCellAccessoryType.None
         return cell
     }
@@ -75,12 +77,23 @@ class TweetsViewController: UIViewController,UITableViewDelegate, UITableViewDat
    
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let cell = sender as! UITableViewCell
-        let indexPath = tableView.indexPathForCell(cell)
-        let tweet = tweets![(indexPath?.row)!]
-        let detailViewController = segue.destinationViewController as! TweetDetailsViewController
-        detailViewController.tweet = tweet
-        print("prepare for segue has been called")
+        if (segue.identifier == "detailsSegue") {
+            let cell = sender as! UITableViewCell
+            let indexPath = tableView.indexPathForCell(cell)
+            let tweet = tweets![(indexPath?.row)!]
+            let detailViewController = segue.destinationViewController as! TweetDetailsViewController
+            detailViewController.tweet = tweet
+            print("prepare for segue has been called")
+        }
+        if (segue.identifier == "OtherProfileSegue"){
+            let user = tweets![sender!.tag].user
+            let detailViewController = segue.destinationViewController as! OthersProfilesViewController
+            detailViewController.user = user
+            print("prepare for segue has been called")
+        }
+        
+        
+        
 
     }
     

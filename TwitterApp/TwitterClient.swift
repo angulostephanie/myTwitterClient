@@ -68,8 +68,8 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
     }
     
-    func userTimeLine(success: ([Tweet]) -> (), failure: (NSError) -> ()) {
-        GET(userTimeLineUrl, parameters: nil, progress: nil, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
+    func userTimeLine(screenName: String!, user_id: String!,success: ([Tweet]) -> (), failure: (NSError) -> ()) {
+        GET("1.1/statuses/user_timeline.json?screen_name=\(screenName)&user_id=\(user_id)", parameters: nil, progress: nil, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
             let dictionaries = response as! [NSDictionary]
             let tweets = Tweet.tweetsWithArray(dictionaries)
             success(tweets)
@@ -109,7 +109,7 @@ class TwitterClient: BDBOAuth1SessionManager {
     }
     
     func unretweet(tweetIDStr: String!, success: (Tweet) -> (), failure: (NSError) -> ()) {
-        POST("/1.1/statuses/retweet/\(tweetIDStr).json", parameters: nil, progress: nil, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
+        POST("/1.1/statuses/unretweet/\(tweetIDStr).json", parameters: nil, progress: nil, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
             let dictionary = response as! NSDictionary
             let tweet = Tweet(dictionary: dictionary)
             success(tweet)
@@ -119,7 +119,7 @@ class TwitterClient: BDBOAuth1SessionManager {
     }
     
     func favorite(tweetIDStr: String!, success: (Tweet) -> (), failure: (NSError) -> ()) {
-        POST("/1.1/favorites/create.json?id=\(tweetIDStr)", parameters: nil, progress: { (progress: NSProgress) -> Void in },success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
+        POST("/1.1/favorites/create.json?id=\(tweetIDStr)", parameters: nil, progress: nil ,success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
             let dictionary = response as! NSDictionary
             let tweet = Tweet(dictionary: dictionary)
             success(tweet)
@@ -130,7 +130,7 @@ class TwitterClient: BDBOAuth1SessionManager {
     }
     
     func unfavorite(tweetIDStr: String!, success: (Tweet) -> (), failure: (NSError) -> ()) {
-        POST("/1.1/statuses/destroy/\(tweetIDStr).json", parameters: nil, progress: { (progress: NSProgress) -> Void in },success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
+        POST("/1.1/statuses/destroy/\(tweetIDStr).json", parameters: nil, progress: nil ,success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
             let dictionary = response as! NSDictionary
             let tweet = Tweet(dictionary: dictionary)
             success(tweet)

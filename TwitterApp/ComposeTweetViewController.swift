@@ -32,15 +32,6 @@ class ComposeTweetViewController: UIViewController, UITextViewDelegate {
     func textViewDidChange(textView: UITextView) {
         finishedTweet = myTextView.text
     }
-//    TwitterClient.sharedInstance.retweet(myTweetIdStr, success: { (tweet) in
-//    self.tweet = tweet
-//    sender.setImage(UIImage(named: "greenretweet.png"), forState: .Normal)
-//    print("retweeted")
-//    
-//    self.hasBeenRetweeted = true
-//    }, failure: { (error:NSError) in
-//    print(error.localizedDescription)
-//    })
 
     @IBAction func onTweetButton(sender: AnyObject) {
         TwitterClient.sharedInstance.compose(myTextView.text, success: { () in

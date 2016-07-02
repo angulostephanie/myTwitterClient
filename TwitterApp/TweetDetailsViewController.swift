@@ -27,6 +27,7 @@ class TweetDetailsViewController: UIViewController {
     }
     override func viewWillAppear(animated: Bool) {
         self.navigationController?.navigationBarHidden = false
+        self.navigationController!.navigationBar.tintColor = UIColor.colorFromHex("#FFCC00")
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
